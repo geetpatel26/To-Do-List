@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            width: 400px;
+        }
+        h1 {
+            text-align: center;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+        .edit-btn {
+            background-color: #ffc107;
+            color: white;
+            margin-right: 10px;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <input type="text" id="taskInput" placeholder="Add a new task">
+        <button class="add-btn" onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            if (taskText === '') {
+                alert('Please enter a task.');
+                return;
+            }
+
+            const taskList = document.getElementById('taskList');
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span class="task-text">${taskText}</span>
+                <div>
+                    <button class="edit-btn" onclick="editTask(this)">Edit</button>
+                    <button class="delete-btn" onclick="deleteTask(this)">Delete</button>
+                    <button class="complete-btn" onclick="markCompleted(this)">Complete</button>
+                </div>
+            `;
+            taskList.appendChild(li);
+            taskInput.value = '';
+        }
+
+        function markCompleted(button) {
+            const li = button.parentElement.parentElement;
+            li.classList.toggle('completed');
+        }
+
+        function editTask(button) {
+            const li = button.parentElement.parentElement;
+            const taskText = li.querySelector('.task-text').textContent;
+            const newTaskText = prompt('Edit task:', taskText);
+            if (newTaskText !== null) {
+                li.querySelector('.task-text').textContent = newTaskText.trim();
+            }
+        }
+
+        function deleteTask(button) {
+            const li = button.parentElement.parentElement;
+            li.remove();
+        }
+    </script>
+</body>
+</html>
